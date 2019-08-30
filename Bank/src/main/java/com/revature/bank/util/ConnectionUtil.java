@@ -7,8 +7,16 @@ import java.sql.SQLException;
 public class ConnectionUtil {
 	
 private static Connection connection;
+
+private static boolean isTest = true;
 	
 	public static Connection getConnection() throws SQLException {
+		
+		if(isTest == true) {
+			return getH2Connection();
+		}
+		
+		else {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -21,6 +29,7 @@ private static Connection connection;
 		String username = System.getenv("DB_USER");
 		String password = System.getenv("DB_PASS");
 		
+		
 		if (connection == null || connection.isClosed()) {
 		
 		connection = DriverManager.getConnection(url, username,password);
@@ -28,5 +37,16 @@ private static Connection connection;
 		}
 		
 		return connection;
+		
+		}
 	}
+	
+	public static Connection getH2Connection() {
+		
+		
+		return connection;
+		
+	}
+		
+	
 }

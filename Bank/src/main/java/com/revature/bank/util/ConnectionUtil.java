@@ -8,15 +8,8 @@ public class ConnectionUtil {
 	
 private static Connection connection;
 
-private static boolean isTest = true;
-	
 	public static Connection getConnection() throws SQLException {
 		
-		if(isTest == true) {
-			return getH2Connection();
-		}
-		
-		else {
 		
 		try {
 			Class.forName("org.postgresql.Driver");
@@ -39,14 +32,6 @@ private static boolean isTest = true;
 		return connection;
 		
 		}
-	}
 	
-	public static Connection getH2Connection() {
-		
-		
-		return connection;
-		
-	}
-		
 	
 }

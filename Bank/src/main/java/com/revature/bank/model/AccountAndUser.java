@@ -1,11 +1,11 @@
 package com.revature.bank.model;
 
-public class AccountsAndUsers {
+public class AccountAndUser {
 	
 	private int userId;
 	private int accountId;
 	
-	public AccountsAndUsers(int userId, int accountId) {
+	public AccountAndUser(int userId, int accountId) {
 		super();
 		this.userId = userId;
 		this.accountId = accountId;
@@ -41,7 +41,7 @@ public class AccountsAndUsers {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		AccountsAndUsers other = (AccountsAndUsers) obj;
+		AccountAndUser other = (AccountAndUser) obj;
 		if (accountId != other.accountId)
 			return false;
 		if (userId != other.userId)

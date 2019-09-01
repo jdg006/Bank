@@ -75,14 +75,71 @@ public class AccountAndUserDaoImpl implements AccountAndUserDao{
 	
 	@Override
 	public List<AccountAndUser> getAccountAndUserByUserId(int userId) {
+		
 		String sql = "select * from user_id_account_id where user_id = ?";
-		return null;
+		AccountAndUser aau = null;
+		int accountId;
+		List <AccountAndUser> accountAndUsers = new ArrayList<>();
+		
+		try(Connection c = ConnectionUtil.getConnection();
+				PreparedStatement ps = c.prepareStatement(sql)){
+			
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				 userId = rs.getInt("user_id");
+				 accountId = rs.getInt("account_id");
+				
+				 aau = new AccountAndUser(userId, accountId);
+				 
+				 accountAndUsers.add(aau);
+	
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accountAndUsers;	
 	}
 
 	@Override
 	public List<AccountAndUser> getAccountAndUserByAccountId(int accountId) {
+		
 		String sql = "select * from user_id_account_id where account_id = ?";
-		return null;
+		AccountAndUser aau = null;
+		int userId;
+		List <AccountAndUser> accountAndUsers = new ArrayList<>();
+		
+		try(Connection c = ConnectionUtil.getConnection();
+				PreparedStatement ps = c.prepareStatement(sql)){
+			
+			ps.setInt(1, accountId);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				 userId = rs.getInt("user_id");
+				accountId = rs.getInt("account_id");
+				
+				 aau = new AccountAndUser(userId, accountId);
+				 accountAndUsers.add(aau);
+	
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accountAndUsers;	
 	}
 
 	@Override

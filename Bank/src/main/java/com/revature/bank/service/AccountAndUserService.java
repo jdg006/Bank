@@ -20,6 +20,18 @@ public class AccountAndUserService {
 		
 	}
 	
+	public List<AccountAndUser> getAccountAndUserByUserId(int userId){
+		
+		return aaud.getAccountAndUserByUserId(userId);
+		
+	}
+	
+	public List<AccountAndUser> getAccountAndUserByAccountId(int accountId){
+		
+		return aaud.getAccountAndUserByAccountId(accountId);
+		
+	}
+	
 	public AccountAndUser getAccountAndUser(int userId, int accountId){
 			
 		return aaud.getAccountAndUser(userId, accountId);

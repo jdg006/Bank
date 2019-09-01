@@ -17,7 +17,7 @@ public class UserDaoImpl implements UserDao {
 	@Override
 	public List <User> getUsers() {
 		
-		String sql = "select * from User_info";
+		String sql = "select * from user_info";
 		
 		List <User> users = new ArrayList<>();
 		
@@ -142,7 +142,7 @@ public class UserDaoImpl implements UserDao {
 			
 			ps.setInt(1, id);
 			
-			if (ps.executeUpdate()==1) {
+			if (ps.executeUpdate() == 1) {
 				wasDeleted = true;
 			}
 			

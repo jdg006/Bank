@@ -8,7 +8,7 @@ public interface AccountAndUserDao {
 	
 	public List <AccountAndUser> getAllAccountAndUser();
 	public AccountAndUser getAccountAndUser(int userId, int accountId); 
-	public boolean createAccountAndUser(int userId, int accountId);
+	public boolean createAccountAndUser(AccountAndUser accountAndUser);
 	public boolean updateAccountAndUser(int userId, int accountId);
 	public boolean deleteAccountAndUser(int userId, int accountId);
 

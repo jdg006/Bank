@@ -10,6 +10,10 @@ public class AccountAndUserService {
 	
 	private AccountAndUserDao aaud = new AccountAndUserDaoImpl();
 	
+	public AccountAndUserService () {
+		
+	}
+	
 	public List<AccountAndUser> getAllAccountAndUser(){
 		
 		return aaud.getAllAccountAndUser();

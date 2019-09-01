@@ -11,17 +11,27 @@ public class AccountService {
 	
 	private AccountDao ad = new AccountDaoImpl();
 	
-public List<Account> getAllAccounts(){
+	public AccountService() {
+		
+	}
+	
+	public List<Account> getAllAccounts(){
 		
 		return ad.getAccounts();
 		
 	}
 	
-	public Account getAccountAndUser(int id){
+	public Account getAccount(int id){
 			
 		return ad.getAccountById(id);
 			
-		}
+	}
+	
+	public Account getLastCreatedAccount() {
+		
+		return ad.getLastCreatedAccount();
+		
+	}
 	
 	public boolean createAccount(Account a) {
 		

@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.revature.bank.dao.AccountAndUserDao;
 import com.revature.bank.model.AccountAndUser;
-import com.revature.bank.model.User;
 import com.revature.bank.util.ConnectionUtil;
 
 public class AccountAndUserDaoImpl implements AccountAndUserDao{
@@ -72,6 +71,18 @@ public class AccountAndUserDaoImpl implements AccountAndUserDao{
 		}
 		
 		return aau;	
+	}
+	
+	@Override
+	public List<AccountAndUser> getAccountAndUserByUserId(int userId) {
+		String sql = "select * from user_id_account_id where user_id = ?";
+		return null;
+	}
+
+	@Override
+	public List<AccountAndUser> getAccountAndUserByAccountId(int accountId) {
+		String sql = "select * from user_id_account_id where account_id = ?";
+		return null;
 	}
 
 	@Override

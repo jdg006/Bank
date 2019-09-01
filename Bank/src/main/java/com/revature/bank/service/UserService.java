@@ -10,6 +10,10 @@ public class UserService {
 	
 	private UserDao ud = new UserDaoImpl();
 	
+	public UserService () {
+		
+	}
+	
 	public List<User> getAllUsers(){
 		
 		return ud.getUsers();
@@ -20,6 +24,14 @@ public class UserService {
 		
 		return ud.getUser(id);
 		
+	}
+	
+	public User getUser(String username) {
+		return ud.getUser(username);
+	}
+	
+	public List <String> getUsernames(){
+		return ud.getUsernames();
 	}
 	
 	public boolean createUser(User user) {

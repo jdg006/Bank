@@ -10,7 +10,6 @@ import java.util.List;
 
 import com.revature.bank.dao.AccountDao;
 import com.revature.bank.model.Account;
-import com.revature.bank.model.User;
 import com.revature.bank.util.ConnectionUtil;
 
 public class AccountDaoImpl implements AccountDao{
@@ -75,6 +74,38 @@ public class AccountDaoImpl implements AccountDao{
 			e.printStackTrace();
 		}
 		return account;
+	}
+	
+	public Account getLastCreatedAccount () {
+		
+		String sql = "select * from account order by id desc limit 1";
+		
+Account account = null;
+		
+		try(Connection c = ConnectionUtil.getConnection();
+				PreparedStatement ps = c.prepareStatement(sql)){
+			
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				int accountId = rs.getInt("id");
+				String type = rs.getString("type_of");
+				float balance = rs.getFloat("balance");
+				
+				
+				 account = new Account(accountId, type, balance);
+	
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return account;
+		
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 import com.revature.bank.dao.UserDao;
 import com.revature.bank.model.User;
@@ -80,6 +81,64 @@ public class UserDaoImpl implements UserDao {
 		
 		return u;
 	}
+	
+	public User getUser(String username) {
+		
+		String sql = "select * from user_info where username = ?";
+		
+		User u = null;
+		
+		try(Connection c = ConnectionUtil.getConnection();
+				PreparedStatement ps = c.prepareStatement(sql)){
+			
+			ps.setString(1, username);
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				
+				int userId = rs.getInt("id");
+				String firstName = rs.getString("first_name");
+				String lastName = rs.getString("last_name");
+				String password = rs.getString("password");
+			    username = rs.getString("username");
+				
+				 u = new User(userId, firstName, lastName, username, password);
+	
+			}
+			
+			rs.close();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return u;
+		
+	}
+	
+	public List <String> getUsernames(){
+		
+		List <String> usernames = new ArrayList<>();
+		
+		String sql = "select username from user_info";
+		
+		try (Connection c = ConnectionUtil.getConnection();
+				Statement s = c.createStatement();
+				ResultSet rs = s.executeQuery(sql);){
+			
+			while(rs.next()) {
+				
+				String username = rs.getString("username");
+				usernames.add(username);
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		
+		return usernames;
+	} 
 
 	@Override
 	public boolean createUser(User user) {

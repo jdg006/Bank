@@ -10,7 +10,9 @@ public interface AccountDao {
 	public Account getAccountById(int id);
 	public Account getLastCreatedAccount();
 	public boolean createAccount(Account account);
-	public boolean updateAccount(int id, float balance, String type);
+	public boolean updateAccount(int id, double balance, String type);
 	public boolean deleteAccountById(int id);
+	public boolean transfer(int senderId, int receiverId, double amount);
+	public List<Account> getAccountsByUserId(int userId);
 
 }

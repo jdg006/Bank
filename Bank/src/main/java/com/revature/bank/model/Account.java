@@ -8,25 +8,49 @@ public class Account implements Serializable {
 	
 	private int id;
 	private String type;
-	private float balance;
+	private double balance;
 	
 	
 	
-	public Account(int id, String type, float balance) {
+	public Account(int id, String type, double balance) {
 		super();
 		this.id = id;
 		this.type = type;
 		this.balance = balance;
 	}
+	
+	
 	@Override
 	public String toString() {
 		return "Account [id=" + id + ", type=" + type + ", balance=" + balance + "]";
+	}
+	
+	
+	public int getId() {
+		return id;
+	}
+	public void setId(int id) {
+		this.id = id;
+	}
+	public String getType() {
+		return type;
+	}
+	public void setType(String type) {
+		this.type = type;
+	}
+	public double getBalance() {
+		return balance;
+	}
+	public void setBalance(double balance) {
+		this.balance = balance;
 	}
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
-		result = prime * result + Float.floatToIntBits(balance);
+		long temp;
+		temp = Double.doubleToLongBits(balance);
+		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + id;
 		result = prime * result + ((type == null) ? 0 : type.hashCode());
 		return result;
@@ -40,7 +64,7 @@ public class Account implements Serializable {
 		if (getClass() != obj.getClass())
 			return false;
 		Account other = (Account) obj;
-		if (Float.floatToIntBits(balance) != Float.floatToIntBits(other.balance))
+		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
 			return false;
 		if (id != other.id)
 			return false;
@@ -50,24 +74,6 @@ public class Account implements Serializable {
 		} else if (!type.equals(other.type))
 			return false;
 		return true;
-	}
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public String getType() {
-		return type;
-	}
-	public void setType(String type) {
-		this.type = type;
-	}
-	public float getBalance() {
-		return balance;
-	}
-	public void setBalance(float balance) {
-		this.balance = balance;
 	}
 	
 	

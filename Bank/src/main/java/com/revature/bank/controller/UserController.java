@@ -1,26 +1,21 @@
 package com.revature.bank.controller;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
-import com.revature.bank.model.Account;
-import com.revature.bank.model.AccountAndUser;
 import com.revature.bank.model.User;
-import com.revature.bank.service.AccountAndUserService;
-import com.revature.bank.service.AccountService;
 import com.revature.bank.service.UserService;
 
 public class UserController {
-	
+	private static Scanner in = new Scanner(System.in);
 
 	
 	public static void start() {
 		
-		System.out.println("If you would like to bank with us you must have a user account. Do you have a user account?"
+		System.out.println("If you would like to bank with us you must have a user account.\n"
+				+ " Do you have a user account?\n"
 				+ " Type 'y' for yes, 'n' for no, or 'q' to quit.");
 		
-		Scanner in = new Scanner(System.in);
 		String answer = in.nextLine();
 		
 		
@@ -49,7 +44,7 @@ public class UserController {
 		String password = null;
 		
 		System.out.println("Enter your username to sign in or enter q to quit.");
-		Scanner in = new Scanner(System.in);
+		
 		String username = in.nextLine().trim();
 		
 		
@@ -67,7 +62,9 @@ public class UserController {
 			}
 		}
 		else {
-		   System.out.println("That username does not exits ");
+			
+			System.out.println(username);
+		   System.out.println("That username does not exist.");
 		   signIn();
 		}
 		
@@ -85,7 +82,6 @@ public class UserController {
 		
 		System.out.println("Enter your first name.");
 		
-		Scanner in = new Scanner(System.in);
 		String answer = in.nextLine();
 		
 		firstName = answer;
@@ -99,7 +95,7 @@ public class UserController {
 		
 		answer = in.nextLine();
 		username = answer;
-		checkNewUsername(username);
+		username = checkNewUsername(username);
 		
 		System.out.println("Enter your password.");
 		
@@ -110,12 +106,10 @@ public class UserController {
 		user = us.getUser(username);
 		
 		signIn();
-		 
-		 in.close();
 	}
 	
 	
-	public static void checkNewUsername(String username) {
+	public static String checkNewUsername(String username) {
 		
 		UserService us = new UserService();
 		List<String> usernames;
@@ -123,14 +117,13 @@ public class UserController {
 		usernames = us.getUsernames();
 		
 		for (String name : usernames) {
-			if (name.matches(username)) {
-				Scanner in = new Scanner(System.in);
+			if (name.matches(username) || username.equalsIgnoreCase("menu")) {
 				System.out.println("Username "+username+" is taken. Please choose another.");
 				username = in.nextLine();
-				checkNewUsername(username);
-				in.close();
+				return checkNewUsername(username);
 			}
 		}
+		return username;
 	}
 	
 	public static User checkExistingUsername(String username) {
@@ -158,16 +151,21 @@ public class UserController {
 		else {
 			System.out.println("That password is not correct. Please try again.");
 			System.out.println("Enter your password to sign in or q to quit");
-			Scanner in = new Scanner(System.in);
 			password = in.nextLine().trim();
-			checkPassword(user, password);
+			return checkPassword(user, password);
 		}
 		
 		return false;
 	}
 	
+	public static void logOut() {
+		start();
+	}
+	
 	public static void quit() {
 		System.out.println("Have a nice day.");
+		in.close();
+		System.exit(0);
 	}
 	
 }

@@ -1,5 +1,6 @@
 package com.revature.bank.dao.impl;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +30,7 @@ public class AccountDaoImpl implements AccountDao{
 				
 				int accountId = rs.getInt("id");
 				String type = rs.getString("type_of");
-				float balance = rs.getFloat("balance");
+				double balance = rs.getFloat("balance");
 				
 				Account a = new Account(accountId, type, balance);
 	
@@ -60,7 +61,7 @@ public class AccountDaoImpl implements AccountDao{
 				
 				int accountId = rs.getInt("id");
 				String type = rs.getString("type_of");
-				float balance = rs.getFloat("balance");
+				double balance = rs.getFloat("balance");
 				
 				
 				 account = new Account(accountId, type, balance);
@@ -80,7 +81,7 @@ public class AccountDaoImpl implements AccountDao{
 		
 		String sql = "select * from account order by id desc limit 1";
 		
-Account account = null;
+		Account account = null;
 		
 		try(Connection c = ConnectionUtil.getConnection();
 				PreparedStatement ps = c.prepareStatement(sql)){
@@ -91,7 +92,7 @@ Account account = null;
 				
 				int accountId = rs.getInt("id");
 				String type = rs.getString("type_of");
-				float balance = rs.getFloat("balance");
+				double balance = rs.getFloat("balance");
 				
 				
 				 account = new Account(accountId, type, balance);
@@ -117,7 +118,7 @@ Account account = null;
 				PreparedStatement ps = c.prepareStatement(sql)){
 	
 			ps.setString(1, account.getType());
-			ps.setFloat(2, account.getBalance());
+			ps.setDouble(2, account.getBalance());
 			
 			if (ps.executeUpdate() == 1) {
 				wasCreated = true;
@@ -132,14 +133,14 @@ Account account = null;
 	}
 
 	@Override
-	public boolean updateAccount(int id, float balance, String type) {
+	public boolean updateAccount(int id, double balance, String type) {
 		String sql = "update account set balance = ?, type_of = ? where id = ?";
 		boolean wasUpdated = false;
 		
 		try (Connection c = ConnectionUtil.getConnection();
 				PreparedStatement ps = c.prepareStatement(sql)){
 			
-			ps.setFloat(1, balance);
+			ps.setDouble(1, balance);
 			ps.setString(2, type);
 			ps.setInt(3, id);
 			
@@ -175,7 +176,61 @@ Account account = null;
 		
 		return wasDeleted;
 	}
-	
-	
 
+	@Override
+	public boolean transfer(int senderId, int receiverId, double amount) {
+		String sql = "{call transfer(?,?,?)}";
+		
+		try(Connection c = ConnectionUtil.getConnection();
+				CallableStatement cs = c.prepareCall(sql)){
+				
+				cs.setInt(1, senderId);
+				cs.setInt(2, receiverId);
+				cs.setDouble(3, amount);
+				
+				 if(cs.execute()) {
+					 return true;
+				 }
+				
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		
+		return false;
+	}
+
+	@Override
+	public List<Account> getAccountsByUserId(int userId) {
+		String sql = "select account.id, account.type_of, account.balance from user_info join user_id_account_id\r\n" + 
+				"on user_info.id = user_id_account_id.user_id join account on \r\n" + 
+				"user_id_account_id.account_id = account.id where user_id = ?";
+		List <Account> accounts =  new ArrayList<>();
+		Account account = null;
+		
+		try (Connection c = ConnectionUtil.getConnection();
+				PreparedStatement ps = c.prepareStatement(sql)){
+			
+			ps.setInt(1, userId);
+			ResultSet rs = ps.executeQuery();
+			
+				while(rs.next()) {
+				
+				int accountId = rs.getInt("id");
+				String type = rs.getString("type_of");
+				double balance = rs.getFloat("balance");
+				
+				
+				account = new Account(accountId, type, balance);
+				accounts.add(account);
+				
+			}
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return accounts;
+		
+	}
 }

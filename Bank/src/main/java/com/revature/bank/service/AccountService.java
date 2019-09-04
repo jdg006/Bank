@@ -39,7 +39,7 @@ public class AccountService {
 		
 	}
 	
-	public boolean updateAccount(int id, float balance, String type) {
+	public boolean updateAccount(int id, double balance, String type) {
 		
 		return ad.updateAccount(id, balance, type);
 		
@@ -50,6 +50,14 @@ public class AccountService {
 		
 		return ad.deleteAccountById(id);
 		
+	}
+	
+	public boolean transfer(int senderId, int receiverId, double amount) {
+		return ad.transfer(senderId, receiverId, amount);
+	}
+	
+	public List<Account> getAccountsByUserId(int userId){
+		return ad.getAccountsByUserId(userId);
 	}
 
 }
